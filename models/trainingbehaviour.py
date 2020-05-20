@@ -13,6 +13,7 @@ class TrainingBehaviour(BaseObject, Model):
     SumPassed           = Column(Text(length=10000))
     ChoicesSize         = Column(Text(length=10000))
     InitialSamplesSize  = Column(Text(length=10000)) 
+    ReactionTimes       = Column(Text(length=10000))
     ChoicesCorrect      = Column(Text(length=10000))
     Chosen              = Column(Text(length=10000))
     CorrectAns          = Column(Text(length=10000))
@@ -33,6 +34,9 @@ class TrainingBehaviour(BaseObject, Model):
         
     def get_choices_correct(self):
         return str(self.ChoicesCorrect)
+    
+    def get_reaction_times(self):
+        return str(self.ReactionTimes)
     
     def get_initial_samples_size(self):
         return str(self.InitialSamplesSize)

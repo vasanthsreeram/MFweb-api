@@ -13,6 +13,7 @@ def create_training_behaviour(user_id):
     trainingbehaviour.UserNo                = int(user_id)
     trainingbehaviour.SumPassed             = str(content['SumPassed'])
     trainingbehaviour.InitialSamplesSize    = str(content['InitialSamplesSize'])
+    trainingbehaviour.ReactionTimes         = str(content['ReactionTimes'])
     trainingbehaviour.ChoicesSize           = str(content['ChoicesSize'])
     trainingbehaviour.ChoicesCorrect        = str(content['ChoicesCorrect'])
     trainingbehaviour.Chosen                = str(content['Chosen'])
