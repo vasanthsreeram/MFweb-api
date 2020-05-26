@@ -6,6 +6,7 @@ from models.base_object import BaseObject
 from models.task import Task
 from models.training import Training
 from models.trainingbehaviour import TrainingBehaviour
+from models.questionsbehaviour import QuestionsBehaviour
 from models.behaviour import Behaviour
 
 
@@ -16,4 +17,5 @@ __all__ = (
     'Training',
     'Behaviour',
     'TrainingBehaviour',
+    'QuestionsBehaviour',
 )
