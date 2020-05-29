@@ -13,6 +13,7 @@ class QuestionsBehaviour(BaseObject, Model):
     SumPassed           = Column(Text(length=10000))
     PressedKeys         = Column(Text(length=10000))
     PercentagePassed    = Column(Text(length=10000)) 
+    ReactionTimes       = Column(Text(length=10000)) 
     Correct             = Column(Text(length=10000))
 
 
@@ -30,6 +31,9 @@ class QuestionsBehaviour(BaseObject, Model):
     
     def get_percentage_passed(self):
         return str(self.PercentagePassed)
+    
+    def get_reaction_times(self):
+        return str(self.ReactionTimes)
     
     def get_correct(self):
         return str(self.Correct)
