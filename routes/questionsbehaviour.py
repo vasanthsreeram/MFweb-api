@@ -10,12 +10,15 @@ def create_questions_behaviour(user_id):
     content                          = request.json        
     questionsbehaviour               = QuestionsBehaviour()
 
-    questionsbehaviour.UserNo               = int(user_id)
-    questionsbehaviour.SumPassed            = str(content['SumPassed'])
-    questionsbehaviour.PressedKeys          = str(content['PressedKeys'])
-    questionsbehaviour.PercentagePassed     = str(content['PercentagePassed'])
-    questionsbehaviour.ReactionTimes        = str(content['ReactionTimes'])
-    questionsbehaviour.Correct              = str(content['Correct'])
+    questionsbehaviour.UserNo                = int(user_id)
+    questionsbehaviour.InstructionsStartTime = str(content['InstructionsStartTime'])
+    questionsbehaviour.QuestionsStartTime    = str(content['QuestionsStartTime'])
+    questionsbehaviour.QuestionsFinishTime   = str(content['QuestionsFinishTime'])
+    questionsbehaviour.SumPassed             = str(content['SumPassed'])
+    questionsbehaviour.PressedKeys           = str(content['PressedKeys'])
+    questionsbehaviour.PercentagePassed      = str(content['PercentagePassed'])
+    questionsbehaviour.ReactionTimes         = str(content['ReactionTimes'])
+    questionsbehaviour.Correct               = str(content['Correct'])
 
      
     BaseObject.check_and_save(questionsbehaviour)

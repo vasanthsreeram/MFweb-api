@@ -11,6 +11,10 @@ class QuestionnairesBehaviour(BaseObject, Model):
        
     UserNo              = Column(Integer)
     
+    Date                = Column(Text(length=10000))
+    StartTime           = Column(Text(length=10000))
+    FinishTime          = Column(Text(length=10000))
+    
     PageNo0             = Column(Text(length=10000))
     PageNo1             = Column(Text(length=10000))
     PageNo2             = Column(Text(length=10000))
@@ -46,6 +50,15 @@ class QuestionnairesBehaviour(BaseObject, Model):
     
     def get_user_no(self):
         return str(self.UserNo)
+    
+    def get_date(self):
+        return str(self.Date)
+    
+    def get_start_time(self):
+        return str(self.StartTime)
+    
+    def get_finish_time(self):
+        return str(self.FinishTime)
     
     def get_page_no_0(self):
         return str(self.PageNo0)

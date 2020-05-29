@@ -1,6 +1,21 @@
 """users routes"""
 from flask import current_app as app, jsonify, request
-from models import QuestionnairesBehaviour, BaseObject
+from models import QuestionnairesBehaviour, BaseObject, db
+from sqlalchemy.sql.expression import func
+
+
+@app.route("/questionnaires_behaviour/last_user_no", methods=["GET"])
+def get_last_participant_id():
+
+    query  = db.db.session.query(func.max(QuestionnairesBehaviour.UserNo)).first_or_404()
+
+    if query[0] is not None:
+        result = dict({"new_user_no": str(int(query[0]) + 1)})
+    else:
+        result = dict({"new_user_no": str(1)})
+
+    app.logger.info(result)
+    return jsonify(result)
 
 
 @app.route('/questionnaires_behaviour/<user_id>', methods=['POST', 'GET'])
@@ -11,6 +26,11 @@ def create_questionnaires_behaviour(user_id):
     questionnairesbehaviour               = QuestionnairesBehaviour()
     
     questionnairesbehaviour.UserNo          = int(user_id)
+    
+    questionnairesbehaviour.Date            = str(content['Date'])
+    questionnairesbehaviour.StartTime       = str(content['StartTime'])
+    questionnairesbehaviour.FinishTime       = str(content['FinishTime'])
+    
     questionnairesbehaviour.PageNo0         = str(content['PageNo0'])
     questionnairesbehaviour.PageNo1         = str(content['PageNo1'])
     questionnairesbehaviour.PageNo2         = str(content['PageNo2'])      

@@ -9,12 +9,15 @@ class QuestionsBehaviour(BaseObject, Model):
     
     id = Column(Integer, primary_key=True)
        
-    UserNo              = Column(Integer)
-    SumPassed           = Column(Text(length=10000))
-    PressedKeys         = Column(Text(length=10000))
-    PercentagePassed    = Column(Text(length=10000)) 
-    ReactionTimes       = Column(Text(length=10000)) 
-    Correct             = Column(Text(length=10000))
+    UserNo                = Column(Integer)
+    InstructionsStartTime = Column(Text(length=10000))
+    QuestionsStartTime    = Column(Text(length=10000))
+    QuestionsFinishTime   = Column(Text(length=10000))
+    SumPassed             = Column(Text(length=10000))
+    PressedKeys           = Column(Text(length=10000))
+    PercentagePassed      = Column(Text(length=10000)) 
+    ReactionTimes         = Column(Text(length=10000)) 
+    Correct               = Column(Text(length=10000))
 
 
     def get_id(self):
@@ -22,6 +25,15 @@ class QuestionsBehaviour(BaseObject, Model):
     
     def get_user_no(self):
         return str(self.UserNo)
+    
+    def get_instructions_starttime(self):
+        return str(self.InstructionsStartTime)
+    
+    def get_questions_starttime(self):
+        return str(self.QuestionsStartTime)
+    
+    def get_questions_finishtime(self):
+        return str(self.QuestionsFinishTime)
     
     def get_sum_passed(self):
         return str(self.SumPassed)

@@ -10,7 +10,9 @@ class Behaviour(BaseObject, Model):
     id = Column(Integer, primary_key=True)
        
     UserNo                = Column(Integer)
-    BlockNo               = Column(Integer)          
+    BlockNo               = Column(Integer)
+    BlockStartTime        = Column(Text(length=10000))
+    BlockFinishTime       = Column(Text(length=10000))
     TreeColours           = Column(Text(length=10000))
     ChosenTree            = Column(Text(length=10000))
     ChosenAppleSize       = Column(Text(length=10000))
@@ -31,6 +33,12 @@ class Behaviour(BaseObject, Model):
     
     def get_user_no(self):
         return str(self.UserNo)
+    
+    def get_start_time(self):
+        return str(self.BlockStartTime)
+    
+    def get_finish_time(self):
+        return str(self.BlockFinishTime)
     
     def get_block_no(self):
         return str(self.BlockNo)

@@ -10,6 +10,8 @@ class TrainingBehaviour(BaseObject, Model):
     id = Column(Integer, primary_key=True)
        
     UserNo              = Column(Integer)
+    TrainingStartTime   = Column(Text(length=10000))
+    TrainingFinishTime  = Column(Text(length=10000))
     SumPassed           = Column(Text(length=10000))
     ChoicesSize         = Column(Text(length=10000))
     InitialSamplesSize  = Column(Text(length=10000)) 
@@ -25,6 +27,12 @@ class TrainingBehaviour(BaseObject, Model):
     
     def get_user_no(self):
         return str(self.UserNo)
+    
+    def get_training_start_time(self):
+        return str(self.TrainingStartTime)
+    
+    def get_training_finish_time(self):
+        return str(self.TrainingFinishTime)
     
     def get_sum_passed(self):
         return str(self.SumPassed)

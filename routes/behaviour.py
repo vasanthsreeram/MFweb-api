@@ -12,6 +12,8 @@ def create_behaviour(user_id, blockNo):
 
     behaviour.UserNo                = int(user_id)
     behaviour.BlockNo               = int(blockNo)
+    behaviour.BlockStartTime        = str(content['BlockStartTime'])
+    behaviour.BlockFinishTime       = str(content['BlockFinishTime'])
     behaviour.TreeColours           = str(content['TreeColours'])
     behaviour.ChosenTree            = str(content['ChosenTree'])
     behaviour.ChosenAppleSize       = str(content['ChosenAppleSize'])

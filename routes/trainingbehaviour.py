@@ -11,6 +11,8 @@ def create_training_behaviour(user_id):
     trainingbehaviour               = TrainingBehaviour()
 
     trainingbehaviour.UserNo                = int(user_id)
+    trainingbehaviour.TrainingStartTime     = str(content['TrainingStartTime'])
+    trainingbehaviour.TrainingFinishTime    = str(content['TrainingFinishTime'])
     trainingbehaviour.SumPassed             = str(content['SumPassed'])
     trainingbehaviour.InitialSamplesSize    = str(content['InitialSamplesSize'])
     trainingbehaviour.ReactionTimes         = str(content['ReactionTimes'])
