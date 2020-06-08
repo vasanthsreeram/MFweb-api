@@ -4,18 +4,7 @@ from models import QuestionnairesBehaviour, BaseObject, db
 from sqlalchemy.sql.expression import func
 
 
-@app.route("/questionnaires_behaviour/last_user_no", methods=["GET"])
-def get_last_participant_id():
 
-    query  = db.db.session.query(func.max(QuestionnairesBehaviour.UserNo)).first_or_404()
-
-    if query[0] is not None:
-        result = dict({"new_user_no": str(int(query[0]) + 1)})
-    else:
-        result = dict({"new_user_no": str(1)})
-
-    app.logger.info(result)
-    return jsonify(result)
 
 
 @app.route('/questionnaires_behaviour/<user_id>', methods=['POST', 'GET'])
