@@ -12,7 +12,7 @@ from flask_mail import Mail, Message
 from models.db import db
 from models.install import install_models
 
-from config import config  
+from config import config
 
 warnings.filterwarnings("ignore")
 
@@ -22,7 +22,9 @@ app  = Flask(__name__)
 # -------------------------
 # --- DB configuration ----
 # -------------------------
-app.config['SQLALCHEMY_DATABASE_URI'] = config.get('Database Parameters','database_url')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+#app.config['SQLALCHEMY_DATABASE_URI'] = config.get('Database Parameters','database_url')
 
 db.init_app(app)
 CORS(app)
@@ -30,8 +32,8 @@ CORS(app)
 with app.app_context():
     install_models()
     import routes
-    
-    
+
+
 # --- TESTING THE SERVER IS WORKING -----------
 @app.route('/testmethod', methods=['GET', 'POST'])
 def mytest():
@@ -43,7 +45,7 @@ def mytest():
 ###########################################################
 # let's start
 ###########################################################
-    
+
 if __name__ == '__main__':
     print("Starting webserver.")
     port = int(os.environ.get("PORT", 5000))
