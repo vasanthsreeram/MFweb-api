@@ -11,6 +11,7 @@ def create_behaviour(user_id, blockNo):
     behaviour   = Behaviour()
 
     behaviour.UserNo                = int(user_id)
+    behaviour.UserStartTime = str(content['UserStartTime'])
     behaviour.BlockNo               = int(blockNo)
     behaviour.BlockStartTime        = str(content['BlockStartTime'])
     behaviour.BlockFinishTime       = str(content['BlockFinishTime'])

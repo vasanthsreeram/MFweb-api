@@ -10,6 +10,7 @@ class Behaviour(BaseObject, Model):
     id = Column(Integer, primary_key=True)
        
     UserNo                = Column(Integer)
+    UserStartTime         = Column(Text(length=10000))
     BlockNo               = Column(Integer)
     BlockStartTime        = Column(Text(length=10000))
     BlockFinishTime       = Column(Text(length=10000))
@@ -33,6 +34,9 @@ class Behaviour(BaseObject, Model):
     
     def get_user_no(self):
         return str(self.UserNo)
+    
+    def get_user_start_time(self):
+        return str(self.UserStartTime)
     
     def get_start_time(self):
         return str(self.BlockStartTime)

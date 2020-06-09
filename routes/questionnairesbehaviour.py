@@ -12,10 +12,11 @@ def create_questionnaires_behaviour(user_id):
     questionnairesbehaviour               = QuestionnairesBehaviour()
 
     questionnairesbehaviour.UserNo          = int(user_id)
+    questionnairesbehaviour.UserStartTime   = str(content['UserStartTime'])
 
-    questionnairesbehaviour.Date            = str(content['Date'])
-    questionnairesbehaviour.StartTime       = str(content['StartTime'])
-    questionnairesbehaviour.FinishTime      = str(content['FinishTime'])
+    questionnairesbehaviour.Date                         = str(content['Date'])
+    questionnairesbehaviour.QuestionnaireStartTime       = str(content['QuestionnaireStartTime'])
+    questionnairesbehaviour.QuestionnaireFinishTime      = str(content['QuestionnaireFinishTime'])
 
     questionnairesbehaviour.PageNo0         = str(content['PageNo0'])
     questionnairesbehaviour.PageNo1         = str(content['PageNo1'])

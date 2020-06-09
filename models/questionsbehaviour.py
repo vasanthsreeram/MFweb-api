@@ -10,6 +10,7 @@ class QuestionsBehaviour(BaseObject, Model):
     id = Column(Integer, primary_key=True)
        
     UserNo                = Column(Integer)
+    UserStartTime         = Column(Text(length=10000))
     InstructionsStartTime = Column(Text(length=10000))
     QuestionsStartTime    = Column(Text(length=10000))
     QuestionsFinishTime   = Column(Text(length=10000))
@@ -25,6 +26,9 @@ class QuestionsBehaviour(BaseObject, Model):
     
     def get_user_no(self):
         return str(self.UserNo)
+    
+    def get_user_start_time(self):
+        return str(self.UserStartTime)
     
     def get_instructions_starttime(self):
         return str(self.InstructionsStartTime)

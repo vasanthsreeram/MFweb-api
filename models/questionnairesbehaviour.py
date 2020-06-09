@@ -9,10 +9,12 @@ class QuestionnairesBehaviour(BaseObject, Model):
     id = Column(Integer, primary_key=True)
 
     UserNo              = Column(Integer)
+    
+    UserStartTime       = Column(Text(length=10000))
 
-    Date                = Column(Text(length=10000))
-    StartTime           = Column(Text(length=10000))
-    FinishTime          = Column(Text(length=10000))
+    Date                             = Column(Text(length=10000))
+    QuestionnaireStartTime           = Column(Text(length=10000))
+    QuestionnaireFinishTime          = Column(Text(length=10000))
 
     PageNo0             = Column(Text(length=10000))
     PageNo1             = Column(Text(length=10000))
@@ -54,12 +56,15 @@ class QuestionnairesBehaviour(BaseObject, Model):
 
     def get_date(self):
         return str(self.Date)
+    
+    def get_user_start_time(self):
+        return str(self.UserStartTime)
 
     def get_start_time(self):
-        return str(self.StartTime)
+        return str(self.QuestionnaireStartTime)
 
     def get_finish_time(self):
-        return str(self.FinishTime)
+        return str(self.QuestionnaireFinishTime)
 
     def get_page_no_0(self):
         return str(self.PageNo0)
