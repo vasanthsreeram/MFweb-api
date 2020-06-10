@@ -10,6 +10,7 @@ class Behaviour(BaseObject, Model):
     id = Column(Integer, primary_key=True)
        
     UserNo                = Column(Integer)
+    ProlificID            = Column(Text(length=10000))
     UserStartTime         = Column(Text(length=10000))
     BlockNo               = Column(Integer)
     BlockStartTime        = Column(Text(length=10000))
@@ -34,6 +35,9 @@ class Behaviour(BaseObject, Model):
     
     def get_user_no(self):
         return str(self.UserNo)
+    
+    def get_prolific_id(self):
+        return str(self.ProlificID)
     
     def get_user_start_time(self):
         return str(self.UserStartTime)

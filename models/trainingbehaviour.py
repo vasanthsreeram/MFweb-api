@@ -10,7 +10,8 @@ class TrainingBehaviour(BaseObject, Model):
     id = Column(Integer, primary_key=True)
        
     UserNo              = Column(Integer)
-    UserStartTime         = Column(Text(length=10000))
+    ProlificID      = Column(Text(length=10000))
+    UserStartTime       = Column(Text(length=10000))
     TrainingStartTime   = Column(Text(length=10000))
     TrainingFinishTime  = Column(Text(length=10000))
     SumPassed           = Column(Text(length=10000))
@@ -25,6 +26,9 @@ class TrainingBehaviour(BaseObject, Model):
     
     def get_id(self):
         return str(self.id)
+    
+    def get_prolific_id(self):
+        return str(self.ProlificID)
     
     def get_user_start_time(self):
         return str(self.UserStartTime)

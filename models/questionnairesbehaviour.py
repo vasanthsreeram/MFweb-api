@@ -10,6 +10,7 @@ class QuestionnairesBehaviour(BaseObject, Model):
 
     UserNo              = Column(Integer)
     
+    ProlificID          = Column(Text(length=10000))
     UserStartTime       = Column(Text(length=10000))
 
     Date                             = Column(Text(length=10000))
@@ -53,6 +54,9 @@ class QuestionnairesBehaviour(BaseObject, Model):
 
     def get_user_no(self):
         return str(self.UserNo)
+    
+    def get_prolific_id(self):
+        return str(self.ProlificID)
 
     def get_date(self):
         return str(self.Date)
