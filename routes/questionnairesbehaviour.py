@@ -50,6 +50,7 @@ def create_questionnaires_behaviour(user_id):
     questionnairesbehaviour.LSAS             = str(content['LSAS'])
     questionnairesbehaviour.SDS              = str(content['SDS'])
     questionnairesbehaviour.STAI             = str(content['STAI'])
+    questionnairesbehaviour.STAI             = str(content['OCIR'])
 
     BaseObject.check_and_save(questionnairesbehaviour)
 

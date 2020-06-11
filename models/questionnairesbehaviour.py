@@ -48,6 +48,7 @@ class QuestionnairesBehaviour(BaseObject, Model):
     LSAS                = Column(Text(length=10000))
     SDS                 = Column(Text(length=10000))
     STAI                = Column(Text(length=10000))
+    OCIR                = Column(Text(length=10000))
 
     def get_id(self):
         return str(self.id)
@@ -123,6 +124,9 @@ class QuestionnairesBehaviour(BaseObject, Model):
 
     def get_lsas(self):
             return str(self.LSAS)
+        
+    def get_ocir(self):
+            return str(self.OCIR)
 
     def get_sds(self):
             return str(self.SDS)
