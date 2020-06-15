@@ -7,61 +7,62 @@ from models.base_object import BaseObject
 class QuestionnairesBehaviour(BaseObject, Model):
 
     id = Column(Integer, primary_key=True)
-
-    UserNo              = Column(Integer)
-    
-    ProlificID          = Column(Text(length=10000))
-    UserStartTime       = Column(Text(length=10000))
-
-    Date                             = Column(Text(length=10000))
-    QuestionnaireStartTime           = Column(Text(length=10000))
-    QuestionnaireFinishTime          = Column(Text(length=10000))
-
-    PageNo0             = Column(Text(length=10000))
-    PageNo1             = Column(Text(length=10000))
-    PageNo2             = Column(Text(length=10000))
-    PageNo3             = Column(Text(length=10000))
-    PageNo4             = Column(Text(length=10000))
-    PageNo5             = Column(Text(length=10000))
-
-    IQ_1             = Column(Text(length=10000))
-    IQ_2             = Column(Text(length=10000))
-    IQ_3             = Column(Text(length=10000))
-    IQ_4             = Column(Text(length=10000))
-    IQ_5             = Column(Text(length=10000))
-    IQ_6             = Column(Text(length=10000))
-    IQ_7             = Column(Text(length=10000))
-    IQ_8             = Column(Text(length=10000))
-
-    IQimage_1             = Column(Text(length=10000))
-    IQimage_2             = Column(Text(length=10000))
-    IQimage_3             = Column(Text(length=10000))
-    IQimage_4             = Column(Text(length=10000))
-    IQimage_5             = Column(Text(length=10000))
-    IQimage_6             = Column(Text(length=10000))
-    IQimage_7             = Column(Text(length=10000))
-    IQimage_8             = Column(Text(length=10000))
-
-    ASRS                = Column(Text(length=10000))
-    BIS11               = Column(Text(length=10000))
-    IUS                 = Column(Text(length=10000))
-    LSAS                = Column(Text(length=10000))
-    SDS                 = Column(Text(length=10000))
-    STAI                = Column(Text(length=10000))
-    OCIR                = Column(Text(length=10000))
+    UserNo                      = Column(Integer)
+    ProlificID                  = Column(Text(length=10000))
+    TrainingNo                  = Column(Text(length=10000))
+    TaskNo                      = Column(Text(length=10000))
+    UserStartTime               = Column(Text(length=10000))
+    Date                        = Column(Text(length=10000))
+    QuestionnaireStartTime      = Column(Text(length=10000))
+    QuestionnaireFinishTime     = Column(Text(length=10000))
+    PageNo0                     = Column(Text(length=10000))
+    PageNo1                     = Column(Text(length=10000))
+    PageNo2                     = Column(Text(length=10000))
+    PageNo3                     = Column(Text(length=10000))
+    PageNo4                     = Column(Text(length=10000))
+    PageNo5                     = Column(Text(length=10000))
+    IQ_1                        = Column(Text(length=10000))
+    IQ_2                        = Column(Text(length=10000))
+    IQ_3                        = Column(Text(length=10000))
+    IQ_4                        = Column(Text(length=10000))
+    IQ_5                        = Column(Text(length=10000))
+    IQ_6                        = Column(Text(length=10000))
+    IQ_7                        = Column(Text(length=10000))
+    IQ_8                        = Column(Text(length=10000))
+    IQimage_1                   = Column(Text(length=10000))
+    IQimage_2                   = Column(Text(length=10000))
+    IQimage_3                   = Column(Text(length=10000))
+    IQimage_4                   = Column(Text(length=10000))
+    IQimage_5                   = Column(Text(length=10000))
+    IQimage_6                   = Column(Text(length=10000))
+    IQimage_7                   = Column(Text(length=10000))
+    IQimage_8                   = Column(Text(length=10000))
+    ASRS                        = Column(Text(length=10000))
+    BIS11                       = Column(Text(length=10000))
+    IUS                         = Column(Text(length=10000))
+    LSAS                        = Column(Text(length=10000))
+    SDS                         = Column(Text(length=10000))
+    STAI                        = Column(Text(length=10000))
+    OCIR                        = Column(Text(length=10000))
 
     def get_id(self):
         return str(self.id)
 
     def get_user_no(self):
         return str(self.UserNo)
-    
+
     def get_prolific_id(self):
         return str(self.ProlificID)
 
+    def get_task_player_id(self):
+        return str(self.TaskNo)
+
+    def get_training_player_id(self):
+        return str(self.TrainingNo)
+
     def get_date(self):
         return str(self.Date)
-    
+
     def get_user_start_time(self):
         return str(self.UserStartTime)
 
@@ -124,7 +125,7 @@ class QuestionnairesBehaviour(BaseObject, Model):
 
     def get_lsas(self):
             return str(self.LSAS)
-        
+
     def get_ocir(self):
             return str(self.OCIR)
 

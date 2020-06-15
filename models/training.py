@@ -9,7 +9,7 @@ class Training(BaseObject, Model):
     
     id = Column(Integer, primary_key=True)
        
-    UserNo               = Column(Integer)
+    TrainingNo           = Column(Integer)
     TrialNo              = Column(Integer)
                
     InitialSample1Size   = Column(Integer)
@@ -24,8 +24,8 @@ class Training(BaseObject, Model):
     def get_id(self):
         return str(self.id)
     
-    def get_user_no(self):
-        return str(self.UserNo)
+    def get_training_no(self):
+        return str(self.TrainingNo)
     
     def get_trial_no(self):
         return str(self.TrialNo)

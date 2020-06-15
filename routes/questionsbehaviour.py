@@ -19,12 +19,14 @@ def get_last_participant_id():
 @app.route('/questions_behaviour/<user_id>', methods=['POST', 'GET'])
 
 def create_questions_behaviour(user_id):
-    
-    content                          = request.json        
+
+    content                          = request.json
     questionsbehaviour               = QuestionsBehaviour()
 
     questionsbehaviour.UserNo                = int(user_id)
     questionsbehaviour.ProlificID            = str(content['ProlificID'])
+    questionsbehaviour.TrainingNo            = str(content['TrainingNo'])
+    questionsbehaviour.TaskNo                = str(content['TaskNo'])
     questionsbehaviour.UserStartTime         = str(content['UserStartTime'])
     questionsbehaviour.InstructionsStartTime = str(content['InstructionsStartTime'])
     questionsbehaviour.QuestionsStartTime    = str(content['QuestionsStartTime'])
@@ -35,9 +37,9 @@ def create_questions_behaviour(user_id):
     questionsbehaviour.ReactionTimes         = str(content['ReactionTimes'])
     questionsbehaviour.Correct               = str(content['Correct'])
 
-     
+
     BaseObject.check_and_save(questionsbehaviour)
 
-    result = dict({"success": "yes"}) 
-    
+    result = dict({"success": "yes"})
+
     return jsonify(result)

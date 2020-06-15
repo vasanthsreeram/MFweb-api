@@ -7,11 +7,11 @@ import json
 import glob
 
 
-@app.route('/task/<user_id>/<block_no>', methods=['GET'])
+@app.route('/task/<task_no>/<block_no>', methods=['GET'])
 
-def get_task(user_id,block_no):
+def get_task(task_no,block_no):
 
-    query = Task.query.filter(Task.UserNo==user_id, Task.BlockNo==block_no)
+    query = Task.query.filter(Task.TaskNo==task_no, Task.BlockNo==block_no)
     if query != None:
         print('Exists')
         
@@ -21,7 +21,7 @@ def get_task(user_id,block_no):
         	
     result                          = {}
     
-    arr_user                        = [];
+    arr_taskno                      = [];
     arr_trial                       = [];
     arr_block                       = [];
     arr_horizon                     = [];
@@ -39,7 +39,7 @@ def get_task(user_id,block_no):
     
     for t in range(0,100,1):
         
-        tmp_user                    = block[t].get_user_no().replace('  ',' ').split(' ')
+        tmp_taskno                  = block[t].get_task_no().replace('  ',' ').split(' ')
         tmp_trial                   = block[t].get_trial_no().replace('  ',' ').split(' ')
         tmp_block                   = block[t].get_block_no().replace('  ',' ').split(' ')
         tmp_horizon                 = block[t].get_horizon().replace('  ',' ').split(' ')
@@ -55,7 +55,7 @@ def get_task(user_id,block_no):
         tmp_Tree3FutureSize         = block[t].get_tree3_future_size()
         tmp_Tree4FutureSize         = block[t].get_tree4_future_size()
         
-        arr_user.append(int(tmp_user[0])) 
+        arr_taskno.append(int(tmp_taskno[0])) 
         arr_trial.append(int(tmp_trial[0])) 
         arr_block.append(int(tmp_block[0])) 
         arr_horizon.append(int(tmp_horizon[0])) 
@@ -74,7 +74,7 @@ def get_task(user_id,block_no):
         arr_Tree3FutureSize.append(tmp_Tree3FutureSize)
         arr_Tree4FutureSize.append(tmp_Tree4FutureSize)
     
-    result['UserNo']                 = arr_user     
+    result['TaskNo']                 = arr_taskno     
     result['TrialNo']                = arr_trial
     result['BlockNo']                = arr_block
     result['Horizon']                = arr_horizon

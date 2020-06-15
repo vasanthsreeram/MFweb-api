@@ -6,13 +6,15 @@ from models import TrainingBehaviour, BaseObject
 @app.route('/training_behaviour/<user_id>', methods=['POST', 'GET'])
 
 def create_training_behaviour(user_id):
-    
-    content                         = request.json        
+
+    content                         = request.json
     trainingbehaviour               = TrainingBehaviour()
 
     trainingbehaviour.UserNo                = int(user_id)
     trainingbehaviour.UserStartTime         = str(content['UserStartTime'])
     trainingbehaviour.ProlificID            = str(content['ProlificID'])
+    trainingbehaviour.TrainingNo            = str(content['TrainingNo'])
+    trainingbehaviour.TaskNo                = str(content['TaskNo'])
     trainingbehaviour.TrainingStartTime     = str(content['TrainingStartTime'])
     trainingbehaviour.TrainingFinishTime    = str(content['TrainingFinishTime'])
     trainingbehaviour.SumPassed             = str(content['SumPassed'])
@@ -24,9 +26,9 @@ def create_training_behaviour(user_id):
     trainingbehaviour.CorrectAns            = str(content['CorrectAns'])
     trainingbehaviour.NumTraining           = str(content['NumTraining'])
 
-     
+
     BaseObject.check_and_save(trainingbehaviour)
 
-    result = dict({"success": "yes"}) 
-    
+    result = dict({"success": "yes"})
+
     return jsonify(result)

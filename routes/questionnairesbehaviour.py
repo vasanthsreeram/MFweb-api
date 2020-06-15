@@ -11,9 +11,11 @@ def create_questionnaires_behaviour(user_id):
     content                               = request.json
     questionnairesbehaviour               = QuestionnairesBehaviour()
 
-    questionnairesbehaviour.UserNo          = int(user_id)
-    questionnairesbehaviour.ProlificID      = str(content['ProlificID'])
-    questionnairesbehaviour.UserStartTime   = str(content['UserStartTime'])
+    questionnairesbehaviour.UserNo           = int(user_id)
+    questionnairesbehaviour.ProlificID       = str(content['ProlificID'])
+    questionnairesbehaviour.TrainingNo       = str(content['TrainingNo'])
+    questionnairesbehaviour.TaskNo           = str(content['TaskNo'])
+    questionnairesbehaviour.UserStartTime    = str(content['UserStartTime'])
 
     questionnairesbehaviour.Date                         = str(content['Date'])
     questionnairesbehaviour.QuestionnaireStartTime       = str(content['QuestionnaireStartTime'])

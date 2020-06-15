@@ -9,7 +9,7 @@ class Task(BaseObject, Model):
 
     id = Column(Integer, primary_key=True)
 
-    UserNo               = Column(Integer)
+    TaskNo               = Column(Integer)
     TrialNo              = Column(Integer)
     BlockNo              = Column(Integer)
     Horizon              = Column(Integer)
@@ -70,8 +70,8 @@ class Task(BaseObject, Model):
     def get_id(self):
         return str(self.id)
 
-    def get_user_no(self):
-        return str(self.UserNo)
+    def get_task_no(self):
+        return str(self.TaskNo)
 
     def get_trial_no(self):
         return str(self.TrialNo)

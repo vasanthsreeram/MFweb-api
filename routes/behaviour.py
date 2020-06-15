@@ -6,13 +6,15 @@ from models import Behaviour, BaseObject
 @app.route('/behaviour/<user_id>/<blockNo>', methods=['POST', 'GET'])
 
 def create_behaviour(user_id, blockNo):
-    
-    content     = request.json        
+
+    content     = request.json
     behaviour   = Behaviour()
 
     behaviour.UserNo                = int(user_id)
     behaviour.UserStartTime         = str(content['UserStartTime'])
     behaviour.ProlificID            = str(content['ProlificID'])
+    behaviour.TrainingNo            = str(content['TrainingNo'])
+    behaviour.TaskNo                = str(content['TaskNo'])
     behaviour.BlockNo               = int(blockNo)
     behaviour.BlockStartTime        = str(content['BlockStartTime'])
     behaviour.BlockFinishTime       = str(content['BlockFinishTime'])
@@ -29,9 +31,9 @@ def create_behaviour(user_id, blockNo):
     behaviour.InitialSamplesTree    = str(content['InitialSamplesTree'])
     behaviour.InitialSamplesSize    = str(content['InitialSamplesSize'])
     behaviour.TreePositions         = str(content['TreePositions'])
-     
+
     BaseObject.check_and_save(behaviour)
 
-    result = dict({"success": "yes"}) 
-    
+    result = dict({"success": "yes"})
+
     return jsonify(result)
