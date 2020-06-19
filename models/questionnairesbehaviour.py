@@ -21,6 +21,10 @@ class QuestionnairesBehaviour(BaseObject, Model):
     PageNo3                     = Column(Text(length=10000))
     PageNo4                     = Column(Text(length=10000))
     PageNo5                     = Column(Text(length=10000))
+    PageNo6                     = Column(Text(length=10000))
+    PageNo7                     = Column(Text(length=10000))
+    PageNo8                     = Column(Text(length=10000))
+    PageNo9                     = Column(Text(length=10000))
     IQ_1                        = Column(Text(length=10000))
     IQ_2                        = Column(Text(length=10000))
     IQ_3                        = Column(Text(length=10000))
@@ -89,6 +93,18 @@ class QuestionnairesBehaviour(BaseObject, Model):
 
     def get_page_no_5(self):
         return str(self.PageNo5)
+    
+    def get_page_no_6(self):
+        return str(self.PageNo6)
+
+    def get_page_no_7(self):
+        return str(self.PageNo7)
+
+    def get_page_no_8(self):
+        return str(self.PageNo8)
+
+    def get_page_no_9(self):
+        return str(self.PageNo9)
 
     def get_iq_1(self):
         return str(self.IQ_1)

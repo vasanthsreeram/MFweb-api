@@ -27,6 +27,10 @@ def create_questionnaires_behaviour(user_id):
     questionnairesbehaviour.PageNo3         = str(content['PageNo3'])
     questionnairesbehaviour.PageNo4         = str(content['PageNo4'])
     questionnairesbehaviour.PageNo5         = str(content['PageNo5'])
+    questionnairesbehaviour.PageNo6         = str(content['PageNo6'])
+    questionnairesbehaviour.PageNo7         = str(content['PageNo7'])
+    questionnairesbehaviour.PageNo8         = str(content['PageNo8'])
+    questionnairesbehaviour.PageNo9         = str(content['PageNo9'])
 
     questionnairesbehaviour.IQ_1            = str(content['IQ_1'])
     questionnairesbehaviour.IQ_2            = str(content['IQ_2'])
@@ -52,7 +56,7 @@ def create_questionnaires_behaviour(user_id):
     questionnairesbehaviour.LSAS             = str(content['LSAS'])
     questionnairesbehaviour.SDS              = str(content['SDS'])
     questionnairesbehaviour.STAI             = str(content['STAI'])
-    questionnairesbehaviour.STAI             = str(content['OCIR'])
+    questionnairesbehaviour.OCIR             = str(content['OCIR'])
 
     BaseObject.check_and_save(questionnairesbehaviour)
 
