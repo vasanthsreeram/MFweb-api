@@ -15,7 +15,7 @@ class Behaviour(BaseObject, Model):
     TrainingNo            = Column(Text(length=10000))
     UserStartTime         = Column(Text(length=10000))
     BlockNo               = Column(Integer)
-    InfoRequestNo         = Column(Integer)
+    InfoRequestNo         = Column(Text(length=10000))
     BlockStartTime        = Column(Text(length=10000))
     BlockFinishTime       = Column(Text(length=10000))
     TreeColours           = Column(Text(length=10000))
