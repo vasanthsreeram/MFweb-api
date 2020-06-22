@@ -15,6 +15,7 @@ class Behaviour(BaseObject, Model):
     TrainingNo            = Column(Text(length=10000))
     UserStartTime         = Column(Text(length=10000))
     BlockNo               = Column(Integer)
+    InfoRequestNo         = Column(Integer)
     BlockStartTime        = Column(Text(length=10000))
     BlockFinishTime       = Column(Text(length=10000))
     TreeColours           = Column(Text(length=10000))
@@ -38,6 +39,9 @@ class Behaviour(BaseObject, Model):
     def get_user_no(self):
         return str(self.UserNo)
 
+    def get_task_info_request_no(self):
+        return str(self.InfoRequestNo)
+    
     def get_task_player_id(self):
         return str(self.TaskNo)
 

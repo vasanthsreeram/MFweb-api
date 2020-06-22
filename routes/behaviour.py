@@ -16,6 +16,7 @@ def create_behaviour(user_id, blockNo):
     behaviour.TrainingNo            = str(content['TrainingNo'])
     behaviour.TaskNo                = str(content['TaskNo'])
     behaviour.BlockNo               = int(blockNo)
+    behaviour.InfoRequestNo         = int(InfoRequestNo)
     behaviour.BlockStartTime        = str(content['BlockStartTime'])
     behaviour.BlockFinishTime       = str(content['BlockFinishTime'])
     behaviour.TreeColours           = str(content['TreeColours'])
