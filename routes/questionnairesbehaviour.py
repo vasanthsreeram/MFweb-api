@@ -57,6 +57,9 @@ def create_questionnaires_behaviour(user_id):
     questionnairesbehaviour.SDS              = str(content['SDS'])
     questionnairesbehaviour.STAI             = str(content['STAI'])
     questionnairesbehaviour.OCIR             = str(content['OCIR'])
+    questionnairesbehaviour.AQ10             = str(content['AQ10'])
+    questionnairesbehaviour.CFS              = str(content['CFS'])
+    questionnairesbehaviour.MEDIC            = str(content['MEDIC'])
 
     BaseObject.check_and_save(questionnairesbehaviour)
 

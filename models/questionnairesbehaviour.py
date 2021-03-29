@@ -48,6 +48,9 @@ class QuestionnairesBehaviour(BaseObject, Model):
     SDS                         = Column(Text(length=10000))
     STAI                        = Column(Text(length=10000))
     OCIR                        = Column(Text(length=10000))
+    CFS                         = Column(Text(length=10000))
+    MEDIC                       = Column(Text(length=10000))
+    AQ10                        = Column(Text(length=10000))
 
     def get_id(self):
         return str(self.id)
@@ -93,7 +96,7 @@ class QuestionnairesBehaviour(BaseObject, Model):
 
     def get_page_no_5(self):
         return str(self.PageNo5)
-    
+
     def get_page_no_6(self):
         return str(self.PageNo6)
 
@@ -150,6 +153,15 @@ class QuestionnairesBehaviour(BaseObject, Model):
 
     def get_stai(self):
             return str(self.STAI)
+
+    def get_aq10(self):
+            return str(self.AQ10)
+
+    def get_medic(self):
+            return str(self.MEDIC)
+
+    def get_cfs(self):
+            return str(self.CFS)
 
     def errors(self):
         errors = super(QuestionnairesBehaviour, self).errors()
