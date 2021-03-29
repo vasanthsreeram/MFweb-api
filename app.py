@@ -23,8 +23,8 @@ app  = Flask(__name__)
 # --- DB configuration ----
 # -------------------------
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-#app.config['SQLALCHEMY_DATABASE_URI'] = config.get('Database Parameters','database_url')
+#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = config.get('Database Parameters','database_url')
 
 db.init_app(app)
 CORS(app)
