@@ -13,6 +13,7 @@ class QuestionsBehaviour(BaseObject, Model):
     ProlificID            = Column(Text(length=10000))
     TrainingNo            = Column(Text(length=10000))
     TaskNo                = Column(Text(length=10000))
+    Date                  = Column(Text(length=10000))
     UserStartTime         = Column(Text(length=10000))
     InstructionsStartTime = Column(Text(length=10000))
     QuestionsStartTime    = Column(Text(length=10000))
@@ -38,6 +39,9 @@ class QuestionsBehaviour(BaseObject, Model):
 
     def get_training_player_id(self):
         return str(self.TrainingNo)
+
+    def get_date(self):
+        return str(self.Date)
 
     def get_user_start_time(self):
         return str(self.UserStartTime)

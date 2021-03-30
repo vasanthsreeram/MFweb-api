@@ -27,6 +27,7 @@ def create_questions_behaviour(user_id):
     questionsbehaviour.ProlificID            = str(content['ProlificID'])
     questionsbehaviour.TrainingNo            = str(content['TrainingNo'])
     questionsbehaviour.TaskNo                = str(content['TaskNo'])
+    behaviour.Date                           = str(content['Date'])
     questionsbehaviour.UserStartTime         = str(content['UserStartTime'])
     questionsbehaviour.InstructionsStartTime = str(content['InstructionsStartTime'])
     questionsbehaviour.QuestionsStartTime    = str(content['QuestionsStartTime'])

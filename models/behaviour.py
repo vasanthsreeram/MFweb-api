@@ -13,6 +13,7 @@ class Behaviour(BaseObject, Model):
     ProlificID            = Column(Text(length=10000))
     TaskNo                = Column(Text(length=10000))
     TrainingNo            = Column(Text(length=10000))
+    Date                  = Column(Text(length=10000))
     UserStartTime         = Column(Text(length=10000))
     BlockNo               = Column(Integer)
     InfoRequestNo         = Column(Text(length=10000))
@@ -41,7 +42,7 @@ class Behaviour(BaseObject, Model):
 
     def get_task_info_request_no(self):
         return str(self.InfoRequestNo)
-    
+
     def get_task_player_id(self):
         return str(self.TaskNo)
 
@@ -50,6 +51,9 @@ class Behaviour(BaseObject, Model):
 
     def get_prolific_id(self):
         return str(self.ProlificID)
+
+    def get_user_date(self):
+        return str(self.Date)
 
     def get_user_start_time(self):
         return str(self.UserStartTime)

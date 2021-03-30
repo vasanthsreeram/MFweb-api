@@ -15,6 +15,7 @@ def create_training_behaviour(user_id):
     trainingbehaviour.ProlificID            = str(content['ProlificID'])
     trainingbehaviour.TrainingNo            = str(content['TrainingNo'])
     trainingbehaviour.TaskNo                = str(content['TaskNo'])
+    trainingbehaviour.Date                  = str(content['Date'])
     trainingbehaviour.TrainingStartTime     = str(content['TrainingStartTime'])
     trainingbehaviour.TrainingFinishTime    = str(content['TrainingFinishTime'])
     trainingbehaviour.SumPassed             = str(content['SumPassed'])
