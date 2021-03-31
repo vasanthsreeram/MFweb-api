@@ -13,6 +13,7 @@ class QuestionnairesBehaviour(BaseObject, Model):
     TaskNo                      = Column(Text(length=10000))
     UserStartTime               = Column(Text(length=10000))
     Date                        = Column(Text(length=10000))
+    Shuffle                     = Column(Text(length=10000))
     QuestionnaireStartTime      = Column(Text(length=10000))
     QuestionnaireFinishTime     = Column(Text(length=10000))
     PageNo0                     = Column(Text(length=10000))
@@ -69,6 +70,9 @@ class QuestionnairesBehaviour(BaseObject, Model):
 
     def get_date(self):
         return str(self.Date)
+
+    def get_shuffle(self):
+        return str(self.Shuffle)
 
     def get_user_start_time(self):
         return str(self.UserStartTime)

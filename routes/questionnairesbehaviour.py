@@ -17,6 +17,7 @@ def create_questionnaires_behaviour(user_id):
     questionnairesbehaviour.TaskNo           = str(content['TaskNo'])
     questionnairesbehaviour.UserStartTime    = str(content['UserStartTime'])
 
+    questionnairesbehaviour.Shuffle                      = str(content['Shuffle'])
     questionnairesbehaviour.Date                         = str(content['Date'])
     questionnairesbehaviour.QuestionnaireStartTime       = str(content['QuestionnaireStartTime'])
     questionnairesbehaviour.QuestionnaireFinishTime      = str(content['QuestionnaireFinishTime'])
