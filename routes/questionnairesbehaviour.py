@@ -32,6 +32,9 @@ def create_questionnaires_behaviour(user_id):
     questionnairesbehaviour.PageNo7         = str(content['PageNo7'])
     questionnairesbehaviour.PageNo8         = str(content['PageNo8'])
     questionnairesbehaviour.PageNo9         = str(content['PageNo9'])
+    questionnairesbehaviour.PageNo10         = str(content['PageNo10'])
+    questionnairesbehaviour.PageNo11         = str(content['PageNo11'])
+    questionnairesbehaviour.PageNo12         = str(content['PageNo12'])
 
     questionnairesbehaviour.IQ_1            = str(content['IQ_1'])
     questionnairesbehaviour.IQ_2            = str(content['IQ_2'])
