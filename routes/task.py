@@ -1,95 +1,54 @@
 """users routes"""
 from flask import current_app as app, jsonify, request
-from models import Task, BaseObject, db
-from collections import OrderedDict
-import numpy as np
-import json
-import glob
-
+from models import Task
+from sqlalchemy.orm.exc import NoResultFound
 
 @app.route('/task/<task_no>/<block_no>', methods=['GET'])
+def get_task(task_no, block_no):
+    try:
+        query = Task.query.filter(Task.TaskNo == task_no, Task.BlockNo == block_no).all()
+        
+        if query:
+            print('Exists')
+            result = {
+                'TaskNo': [],
+                'TrialNo': [],
+                'BlockNo': [],
+                'Horizon': [],
+                'ItemNo': [],
+                'UnusedTree': [],
+                'InitialSampleNb': [],
+                'DisplayOrder': [],
+                'TreePositions': [],
+                'InitialSamplesTree': [],
+                'InitialSamplesSize': [],
+                'Tree1FutureSize': [],
+                'Tree2FutureSize': [],
+                'Tree3FutureSize': [],
+                'Tree4FutureSize': []
+            }
+            
+            for item in query:
+                result['TaskNo'].append(int(item.get_task_no()))
+                result['TrialNo'].append(int(item.get_trial_no()))
+                result['BlockNo'].append(int(item.get_block_no()))
+                result['Horizon'].append(int(item.get_horizon()))
+                result['ItemNo'].append(int(item.get_item_no()))
+                result['UnusedTree'].append(int(item.get_unused_tree()))
+                result['InitialSampleNb'].append(int(item.get_initial_sample_nb()))
+                result['DisplayOrder'].append(item.get_display_order())
+                result['TreePositions'].append(item.get_tree_positions())
+                result['InitialSamplesTree'].append(item.get_initial_samples_tree())
+                result['InitialSamplesSize'].append(item.get_initial_samples_size())
+                result['Tree1FutureSize'].append(item.get_tree1_future_size())
+                result['Tree2FutureSize'].append(item.get_tree2_future_size())
+                result['Tree3FutureSize'].append(item.get_tree3_future_size())
+                result['Tree4FutureSize'].append(item.get_tree4_future_size())
+            
+            app.logger.info(result)
+            return jsonify(result), 200
+        else:
+            return jsonify({'error': 'No records found'}), 404
 
-def get_task(task_no,block_no):
-
-    query = Task.query.filter(Task.TaskNo==task_no, Task.BlockNo==block_no)
-    if query != None:
-        print('Exists')
-        
-    block  = query.all()
-
-    # format the query into a dictionnary first:
-        	
-    result                          = {}
-    
-    arr_taskno                      = [];
-    arr_trial                       = [];
-    arr_block                       = [];
-    arr_horizon                     = [];
-    arr_item                        = [];
-    arr_unusedTree                  = [];
-    arr_initialSampleNb             = [];
-    arr_displayOrder                = [];
-    arr_TreePositions               = [];
-    arr_initialSamplesTree          = [];
-    arr_initialSamplesSize          = [];
-    arr_Tree1FutureSize             = [];
-    arr_Tree2FutureSize             = [];
-    arr_Tree3FutureSize             = [];
-    arr_Tree4FutureSize             = [];
-    
-    for t in range(0,100,1):
-        
-        tmp_taskno                  = block[t].get_task_no().replace('  ',' ').split(' ')
-        tmp_trial                   = block[t].get_trial_no().replace('  ',' ').split(' ')
-        tmp_block                   = block[t].get_block_no().replace('  ',' ').split(' ')
-        tmp_horizon                 = block[t].get_horizon().replace('  ',' ').split(' ')
-        tmp_item                    = block[t].get_item_no().replace('  ',' ').split(' ')
-        tmp_unusedTree              = block[t].get_unused_tree().replace('  ',' ').split(' ')
-        tmp_initialSampleNb         = block[t].get_initial_sample_nb().replace('  ',' ').split(' ')
-        tmp_displayOrder            = block[t].get_display_order()
-        tmp_TreePositions           = block[t].get_tree_positions()
-        tmp_initialSamplesTree      = block[t].get_initial_samples_tree()
-        tmp_initialSamplesSize      = block[t].get_initial_samples_size()
-        tmp_Tree1FutureSize         = block[t].get_tree1_future_size()
-        tmp_Tree2FutureSize         = block[t].get_tree2_future_size()
-        tmp_Tree3FutureSize         = block[t].get_tree3_future_size()
-        tmp_Tree4FutureSize         = block[t].get_tree4_future_size()
-        
-        arr_taskno.append(int(tmp_taskno[0])) 
-        arr_trial.append(int(tmp_trial[0])) 
-        arr_block.append(int(tmp_block[0])) 
-        arr_horizon.append(int(tmp_horizon[0])) 
-        arr_item.append(int(tmp_item[0]))
-        arr_unusedTree.append(int(tmp_unusedTree[0]))
-        arr_initialSampleNb.append(int(tmp_initialSampleNb[0]))
-        
-        arr_initialSamplesTree.append(tmp_initialSamplesTree)
-        arr_initialSamplesSize.append(tmp_initialSamplesSize)
-        
-        arr_TreePositions.append(tmp_TreePositions)
-        arr_displayOrder.append(tmp_displayOrder)     
-        
-        arr_Tree1FutureSize.append(tmp_Tree1FutureSize)
-        arr_Tree2FutureSize.append(tmp_Tree2FutureSize)
-        arr_Tree3FutureSize.append(tmp_Tree3FutureSize)
-        arr_Tree4FutureSize.append(tmp_Tree4FutureSize)
-    
-    result['TaskNo']                 = arr_taskno     
-    result['TrialNo']                = arr_trial
-    result['BlockNo']                = arr_block
-    result['Horizon']                = arr_horizon
-    result['ItemNo']                 = arr_item
-    result['UnusedTree']             = arr_unusedTree
-    result['TreePositions']          = arr_TreePositions
-    result['DisplayOrder']           = arr_displayOrder
-    result['InitialSamplesTree']     = arr_initialSamplesTree
-    result['InitialSamplesSize']     = arr_initialSamplesSize
-    result['InitialSampleNb']        = arr_initialSampleNb
-    result['Tree1FutureSize']        = arr_Tree1FutureSize
-    result['Tree2FutureSize']        = arr_Tree2FutureSize
-    result['Tree3FutureSize']        = arr_Tree3FutureSize
-    result['Tree4FutureSize']        = arr_Tree4FutureSize
-    
-
-    app.logger.info(result)
-    return jsonify(result), 200 
+    except NoResultFound:
+        return jsonify({'error': 'No records found'}), 404

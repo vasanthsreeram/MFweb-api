@@ -1,5 +1,5 @@
 """ error handlers """
-import simplejson as json
+import json
 from flask import current_app as app, jsonify
 
 from models.api_errors import ApiErrors

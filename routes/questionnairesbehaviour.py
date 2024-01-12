@@ -3,70 +3,63 @@ from flask import current_app as app, jsonify, request
 from models import QuestionnairesBehaviour, BaseObject, db
 from sqlalchemy.sql.expression import func
 
-
 @app.route('/questionnaires_behaviour/<user_id>', methods=['POST', 'GET'])
-
 def create_questionnaires_behaviour(user_id):
+    content = request.json
 
-    content                               = request.json
-    questionnairesbehaviour               = QuestionnairesBehaviour()
-
-    questionnairesbehaviour.UserNo           = int(user_id)
-    questionnairesbehaviour.ProlificID       = str(content['ProlificID'])
-    questionnairesbehaviour.TrainingNo       = str(content['TrainingNo'])
-    questionnairesbehaviour.TaskNo           = str(content['TaskNo'])
-    questionnairesbehaviour.UserStartTime    = str(content['UserStartTime'])
-
-    questionnairesbehaviour.Shuffle                      = str(content['Shuffle'])
-    questionnairesbehaviour.Date                         = str(content['Date'])
-    questionnairesbehaviour.QuestionnaireStartTime       = str(content['QuestionnaireStartTime'])
-    questionnairesbehaviour.QuestionnaireFinishTime      = str(content['QuestionnaireFinishTime'])
-
-    questionnairesbehaviour.PageNo0         = str(content['PageNo0'])
-    questionnairesbehaviour.PageNo1         = str(content['PageNo1'])
-    questionnairesbehaviour.PageNo2         = str(content['PageNo2'])
-    questionnairesbehaviour.PageNo3         = str(content['PageNo3'])
-    questionnairesbehaviour.PageNo4         = str(content['PageNo4'])
-    questionnairesbehaviour.PageNo5         = str(content['PageNo5'])
-    questionnairesbehaviour.PageNo6         = str(content['PageNo6'])
-    questionnairesbehaviour.PageNo7         = str(content['PageNo7'])
-    questionnairesbehaviour.PageNo8         = str(content['PageNo8'])
-    questionnairesbehaviour.PageNo9         = str(content['PageNo9'])
-    questionnairesbehaviour.PageNo10         = str(content['PageNo10'])
-    questionnairesbehaviour.PageNo11         = str(content['PageNo11'])
-    questionnairesbehaviour.PageNo12         = str(content['PageNo12'])
-
-    questionnairesbehaviour.IQ_1            = str(content['IQ_1'])
-    questionnairesbehaviour.IQ_2            = str(content['IQ_2'])
-    questionnairesbehaviour.IQ_3            = str(content['IQ_3'])
-    questionnairesbehaviour.IQ_4            = str(content['IQ_4'])
-    questionnairesbehaviour.IQ_5            = str(content['IQ_5'])
-    questionnairesbehaviour.IQ_6            = str(content['IQ_6'])
-    questionnairesbehaviour.IQ_7            = str(content['IQ_7'])
-    questionnairesbehaviour.IQ_8            = str(content['IQ_8'])
-
-    questionnairesbehaviour.IQimage_1            = str(content['IQimage_1'])
-    questionnairesbehaviour.IQimage_2            = str(content['IQimage_2'])
-    questionnairesbehaviour.IQimage_3            = str(content['IQimage_3'])
-    questionnairesbehaviour.IQimage_4            = str(content['IQimage_4'])
-    questionnairesbehaviour.IQimage_5            = str(content['IQimage_5'])
-    questionnairesbehaviour.IQimage_6            = str(content['IQimage_6'])
-    questionnairesbehaviour.IQimage_7            = str(content['IQimage_7'])
-    questionnairesbehaviour.IQimage_8            = str(content['IQimage_8'])
-
-    questionnairesbehaviour.ASRS             = str(content['ASRS'])
-    questionnairesbehaviour.BIS11            = str(content['BIS11'])
-    questionnairesbehaviour.IUS              = str(content['IUS'])
-    questionnairesbehaviour.LSAS             = str(content['LSAS'])
-    questionnairesbehaviour.SDS              = str(content['SDS'])
-    questionnairesbehaviour.STAI             = str(content['STAI'])
-    questionnairesbehaviour.OCIR             = str(content['OCIR'])
-    questionnairesbehaviour.AQ10             = str(content['AQ10'])
-    questionnairesbehaviour.CFS              = str(content['CFS'])
-    questionnairesbehaviour.MEDIC            = str(content['MEDIC'])
+    questionnairesbehaviour = QuestionnairesBehaviour(
+        UserNo=int(user_id),
+        ProlificID=str(content.get('ProlificID', '')),
+        TrainingNo=str(content.get('TrainingNo', '')),
+        TaskNo=str(content.get('TaskNo', '')),
+        UserStartTime=str(content.get('UserStartTime', '')),
+        Shuffle=str(content.get('Shuffle', '')),
+        Date=str(content.get('Date', '')),
+        QuestionnaireStartTime=str(content.get('QuestionnaireStartTime', '')),
+        QuestionnaireFinishTime=str(content.get('QuestionnaireFinishTime', '')),
+        PageNo0=str(content.get('PageNo0', '')),
+        PageNo1=str(content.get('PageNo1', '')),
+        PageNo2=str(content.get('PageNo2', '')),
+        PageNo3=str(content.get('PageNo3', '')),
+        PageNo4=str(content.get('PageNo4', '')),
+        PageNo5=str(content.get('PageNo5', '')),
+        PageNo6=str(content.get('PageNo6', '')),
+        PageNo7=str(content.get('PageNo7', '')),
+        PageNo8=str(content.get('PageNo8', '')),
+        PageNo9=str(content.get('PageNo9', '')),
+        PageNo10=str(content.get('PageNo10', '')),
+        PageNo11=str(content.get('PageNo11', '')),
+        PageNo12=str(content.get('PageNo12', '')),
+        IQ_1=str(content.get('IQ_1', '')),
+        IQ_2=str(content.get('IQ_2', '')),
+        IQ_3=str(content.get('IQ_3', '')),
+        IQ_4=str(content.get('IQ_4', '')),
+        IQ_5=str(content.get('IQ_5', '')),
+        IQ_6=str(content.get('IQ_6', '')),
+        IQ_7=str(content.get('IQ_7', '')),
+        IQ_8=str(content.get('IQ_8', '')),
+        IQimage_1=str(content.get('IQimage_1', '')),
+        IQimage_2=str(content.get('IQimage_2', '')),
+        IQimage_3=str(content.get('IQimage_3', '')),
+        IQimage_4=str(content.get('IQimage_4', '')),
+        IQimage_5=str(content.get('IQimage_5', '')),
+        IQimage_6=str(content.get('IQimage_6', '')),
+        IQimage_7=str(content.get('IQimage_7', '')),
+        IQimage_8=str(content.get('IQimage_8', '')),
+        ASRS=str(content.get('ASRS', '')),
+        BIS11=str(content.get('BIS11', '')),
+        IUS=str(content.get('IUS', '')),
+        LSAS=str(content.get('LSAS', '')),
+        SDS=str(content.get('SDS', '')),
+        STAI=str(content.get('STAI', '')),
+        OCIR=str(content.get('OCIR', '')),
+        AQ10=str(content.get('AQ10', '')),
+        CFS=str(content.get('CFS', '')),
+        MEDIC=str(content.get('MEDIC', ''))
+    )
 
     BaseObject.check_and_save(questionnairesbehaviour)
 
-    result = dict({"success": "yes"})
+    result = {"success": "yes"}
 
     return jsonify(result)

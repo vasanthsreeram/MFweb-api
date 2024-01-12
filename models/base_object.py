@@ -2,6 +2,7 @@
 from collections import OrderedDict
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
+from sqlalchemy.orm import declarative_base
 from pprint import pprint
 import re
 from psycopg2.extras import DateTimeRange
@@ -15,34 +16,45 @@ from sqlalchemy import CHAR,\
                        String
 from sqlalchemy.orm.collections import InstrumentedList
 from sqlalchemy.exc import DataError, IntegrityError
-
+from sqlalchemy.inspection import inspect
+import humanize
 from models.api_errors import ApiErrors
 from models.db import db
+from sqlalchemy import inspect
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import registry
+from sqlalchemy import create_engine
+
+username = "gridgame"
+password = "J35pZyjo9kLQjh"
+server = "clic.database.windows.net"
+database = "clic"
+
+db_uri = f"mssql+pymssql://{username}:{password}@{server}/{database}"
+
+# Create the SQLAlchemy engine
+engine = create_engine(db_uri)
+Session = sessionmaker(bind=engine)
 
 DUPLICATE_KEY_ERROR_CODE = '23505'
 NOT_FOUND_KEY_ERROR_CODE = '23503'
 OBLIGATORY_FIELD_ERROR_CODE = '23502'
+
+mapper_registry = registry()
+Base = mapper_registry.generate_base()
 
 
 def serialize(value, **options):
     if isinstance(value, Enum):
         return value.name
     elif isinstance(value, datetime):
-        return value.isoformat()+"Z"
+        return value.isoformat() + "Z"
     elif isinstance(value, DateTimeRange):
-        return {
-            'start': value.lower,
-            'end': value.upper
-        }
-    elif isinstance(value, list)\
-            and len(value) > 0\
-            and isinstance(value[0], DateTimeRange):
-        return list(map(lambda d: {'start': d.lower,
-                                   'end': d.upper},
-                        value))
+        return {'start': value.lower, 'end': value.upper}
+    elif isinstance(value, list) and value and isinstance(value[0], DateTimeRange):
+        return [{'start': d.lower, 'end': d.upper} for d in value]
     else:
         return value
-
 
 class BaseObject():
     id = Column(BigInteger,
@@ -55,37 +67,34 @@ class BaseObject():
 
     def _asdict(self, **options):
         result = OrderedDict()
-        for key in self.__mapper__.c.keys():
-            if options \
-                    and 'include' in options \
-                    and options.get('include') \
-                    and "-" + key in options['include']:
+        for key in inspect(self.__class__).attrs.keys():
+            if options and 'include' in options and "-" + key in options['include']:
                 continue
+
             value = getattr(self, key)
-            if options and options.get('cut'):
-                if isinstance(value, str):
-                    if len(value) > options['cut']:
-                        value = value[:options['cut']] + '...'
+            if options and 'cut' in options and isinstance(value, str) and len(value) > options['cut']:
+                value = value[:options['cut']] + '...'
+
             if key == 'id' or key.endswith('Id'):
                 result[key] = humanize(value)
-                if options \
-                        and 'dehumanize' in options \
-                        and options['dehumanize']:
+                if 'dehumanize' in options and options['dehumanize']:
                     result['dehumanized' + key[0].capitalize() + key[1:]] = value
-            elif key == 'validationToken':
-                continue
-            elif key == 'firstThumbDominantColor' and value:
-                result[key] = list(value)
-            else:
-                result[key] = serialize(value, **options)
-        # add the model name
+            elif key != 'validationToken':
+                if isinstance(value, InstrumentedList) or hasattr(value, '__table__'):
+                    # Handling for relationships and models
+                    sub_values = [item._asdict(**options) for item in value] if isinstance(value, list) else value._asdict(**options)
+                    result[key] = sub_values
+                else:
+                    # Direct serialization
+                    result[key] = serialize(value, **options)
+
+        # Add model name
         result['modelName'] = self.__class__.__name__
-        if options \
-                and 'include' in options \
-                and options['include']:
+
+        # Additional logic for included joins
+        if options and 'include' in options and options['include']:
             for join in options['include']:
-                if isinstance(join, str) and \
-                        join.startswith('-'):
+                if isinstance(join, str) and join.startswith('-'):
                     continue
                 elif isinstance(join, dict):
                     key = join['key']
@@ -104,39 +113,23 @@ class BaseObject():
                 if callable(value):
                     value = value()
                 if value is not None:
-                    if isinstance(value, InstrumentedList) \
-                            or value.__class__.__name__ == 'AppenderBaseQuery' \
-                            or isinstance(value, list):
+                    if isinstance(value, InstrumentedList) or hasattr(value, '__table__'):
                         if refine is None:
                             final_value = value
                         else:
                             final_value = refine(value, options.get('filters', {}))
-                        final_value = filter(lambda x: not x.is_soft_deleted(), final_value)
-                        result[key] = list(
-                            map(
-                                lambda attr: attr._asdict(
-                                    cut=options and options.get('cut'),
-                                    include=sub_joins,
-                                ),
-                                final_value
-                            )
-                        )
-                        if resolve != None:
-                            result[key] = list(map(lambda v: resolve(v, options.get('filters', {})),
-                                                   result[key]))
+                        final_value = [item._asdict(**options) for item in final_value if not item.is_soft_deleted()]
+                        result[key] = final_value
+                        if resolve:
+                            result[key] = [resolve(v, options.get('filters', {})) for v in result[key]]
                     elif isinstance(value, BaseObject):
-                        result[key] = value._asdict(
-                            include=sub_joins,
-                            cut=options and options.get('cut'),
-                        )
-                        if resolve != None:
+                        result[key] = value._asdict(include=sub_joins, cut=options.get('cut'))
+                        if resolve:
                             result[key] = resolve(result[key], options.get('filters', {}))
                     else:
                         result[key] = serialize(value)
 
-        if options and \
-                'resolve' in options and \
-                options['resolve']:
+        if options and 'resolve' in options and options['resolve']:
             return options['resolve'](result, options.get('filters', {}))
         else:
             return result
@@ -146,39 +139,31 @@ class BaseObject():
 
     def errors(self):
         errors = ApiErrors()
-        data = self.__class__.__table__.columns._data
-        for key in data.keys():
-            col = data[key]
+        columns = inspect(self.__class__).columns
+        for key in columns.keys():
+            col = columns[key]
             val = getattr(self, key)
             if not isinstance(col, Column):
                 continue
-            if not col.nullable\
-               and not col.foreign_keys\
-               and not col.primary_key\
-               and col.default is None\
-               and val is None:
+            if not col.nullable and not col.foreign_keys and not col.primary_key and col.default is None and val is None:
                 errors.addError(key, 'Cette information est obligatoire')
             if val is None:
                 continue
-            if (isinstance(col.type, String) or isinstance(col.type, CHAR))\
-               and not isinstance(col.type, Enum)\
-               and not isinstance(val, str):
+            if isinstance(col.type, (String, CHAR)) and not isinstance(col.type, Enum) and not isinstance(val, str):
                 errors.addError(key, 'doit etre une chaine de caracteres')
-            if (isinstance(col.type, String) or isinstance(col.type, CHAR))\
-               and isinstance(val, str)\
-               and col.type.length\
-               and len(val)>col.type.length:
-                errors.addError(key,
-                                'Vous devez saisir moins de '
-                                      + str(col.type.length)
-                                      + ' caracteres')
-            if isinstance(col.type, Integer)\
-               and not isinstance(val, int):
+            if isinstance(col.type, (String, CHAR)) and isinstance(val, str) and col.type.length and len(val) > col.type.length:
+                errors.addError(key, 'Vous devez saisir moins de ' + str(col.type.length) + ' caracteres')
+            if isinstance(col.type, Integer) and not isinstance(val, int):
                 errors.addError(key, 'doit etre un entier')
-            if isinstance(col.type, Float)\
-               and not isinstance(val, float):
+            if isinstance(col.type, Float) and not isinstance(val, float):
                 errors.addError(key, 'doit etre un nombre')
         return errors
+
+    def abortIfErrors(self):
+        apiErrors = self.errors()
+        if apiErrors.errors:
+            raise apiErrors
+
 
     def abortIfErrors(self):
         apiErrors = self.errors()
@@ -233,38 +218,34 @@ class BaseObject():
 
     def populateFromDict(self, dct, skipped_keys=[]):
         data = dct.copy()
-        if data.__contains__('id'):
+        if 'id' in data:
             del data['id']
-        cols = self.__class__.__table__.columns._data
-        for key in data.keys():
-            if (key=='deleted') or (key in skipped_keys):
+        cols = inspect(self.__class__).columns
+        for key in data:
+            if key == 'deleted' or key in skipped_keys:
                 continue
 
-            if cols.__contains__(key):
+            if key in cols:
                 col = cols[key]
-                if key.endswith('Id'):
-                    value = dehumanize(data.get(key))
-                else:
-                    value = data.get(key)
-                if isinstance(value, str) and isinstance(col.type, Integer):
-                    try:
-                        setattr(self, key, Decimal(value))
-                    except InvalidOperation as io:
-                        raise TypeError('Invalid value for %s: %r' % (key, value),
-                                        'integer',
-                                        key)
-                elif isinstance(value, str) and (isinstance(col.type, Float) or isinstance(col.type,Numeric)):
-                    try:
-                        setattr(self, key, Decimal(value))
-                    except InvalidOperation as io:
-                        raise TypeError('Invalid value for %s: %r' % (key, value),
-                                        'decimal',
-                                        key)
+                value = dehumanize(data[key]) if key.endswith('Id') else data[key]
+
+                if isinstance(value, str):
+                    if isinstance(col.type, Integer):
+                        try:
+                            setattr(self, key, int(value))
+                        except ValueError:
+                            raise TypeError('Invalid value for %s: %r' % (key, value), 'integer', key)
+                    elif isinstance(col.type, (Float, Numeric)):
+                        try:
+                            setattr(self, key, float(value))
+                        except ValueError:
+                            raise TypeError('Invalid value for %s: %r' % (key, value), 'decimal', key)
                 else:
                     setattr(self, key, value)
 
     @staticmethod
     def check_and_save(*objects):
+        session = Session()
         if not objects:
             raise ValueError('Objects to save need to be passed as arguments'
                              + ' to check_and_save')
@@ -276,7 +257,7 @@ class BaseObject():
             if obj_api_errors.errors.keys():
                 api_errors.errors.update(obj_api_errors.errors)
             else:
-                db.session.add(obj)
+                session.add(obj)
 
         # CHECK BEFORE COMMIT
         if api_errors.errors.keys():
@@ -284,7 +265,7 @@ class BaseObject():
 
         # COMMIT
         try:
-            db.session.commit()
+            session.commit()
         except DataError as de:
             api_errors.addError(*BaseObject.restize_data_error(de))
             raise api_errors
@@ -297,9 +278,11 @@ class BaseObject():
         except ValueError as ve:
             api_errors.addError(*BaseObject.restize_value_error(ve))
             raise api_errors
-
+        finally:
+            session.close()
         if api_errors.errors.keys():
             raise api_errors
+        
 
     @staticmethod
     def delete(model):
