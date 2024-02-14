@@ -24,6 +24,7 @@ from sqlalchemy import inspect
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import registry
 from sqlalchemy import create_engine
+from humanize import intword
 
 username = "gridgame"
 password = "J35pZyjo9kLQjh"
@@ -76,7 +77,7 @@ class BaseObject():
                 value = value[:options['cut']] + '...'
 
             if key == 'id' or key.endswith('Id'):
-                result[key] = humanize(value)
+                result[key] = intword(value)
                 if 'dehumanize' in options and options['dehumanize']:
                     result['dehumanized' + key[0].capitalize() + key[1:]] = value
             elif key != 'validationToken':
@@ -265,7 +266,8 @@ class BaseObject():
 
         # COMMIT
         try:
-            session.commit()
+            print(session)
+            return session.commit()
         except DataError as de:
             api_errors.addError(*BaseObject.restize_data_error(de))
             raise api_errors
@@ -296,6 +298,6 @@ class BaseObject():
     def __repr__(self):
         id = "unsaved" \
             if self.id is None \
-            else str(self.id) + "/" + humanize(self.id)
+            else str(self.id) + "/" + intword(self.id)
         return '<%s #%s>' % (self.__class__.__name__,
                              id)

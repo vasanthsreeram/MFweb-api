@@ -21,14 +21,20 @@ app  = Flask(__name__)
 
 # -------------------------
 # --- DB configuration ----
-# -------------------------
-username = os.environ.get("username")
-password = os.environ.get("password")
-server = os.environ.get("server")
-database = os.environ.get("database")
+# # -------------------------
+# username = os.environ.get("username")
+# password = os.environ.get("password")
+# server = os.environ.get("server")
+# database = os.environ.get("database")
+
+username = "gridgame"
+password = "J35pZyjo9kLQjh"
+server = "clic.database.windows.net"
+database = "clic"
+
 
 db_uri = f"mssql+pymssql://{username}:{password}@{server}/{database}"
-
+print(db_uri)
 
 # Configure Flask app with database URI
 app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
