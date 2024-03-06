@@ -22,15 +22,11 @@ app  = Flask(__name__)
 # -------------------------
 # --- DB configuration ----
 # # -------------------------
-# username = os.environ.get("username")
-# password = os.environ.get("password")
-# server = os.environ.get("server")
-# database = os.environ.get("database")
+username = os.environ.get("DB_USER")
+password = os.environ.get("password")
+server = os.environ.get("server")
+database = os.environ.get("DB_DATABASE")
 
-username = "gridgame"
-password = "J35pZyjo9kLQjh"
-server = "clic.database.windows.net"
-database = "clic"
 
 
 db_uri = f"mssql+pymssql://{username}:{password}@{server}/{database}"
