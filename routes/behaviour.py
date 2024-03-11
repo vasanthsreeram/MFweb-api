@@ -6,6 +6,7 @@ from models import Behaviour, BaseObject
 def create_behaviour(user_id, blockNo):
     content = request.json
     print(content)
+    print(f'user id:{user_id}, block no: {blockNo}')
     behaviour = Behaviour()
 
     behaviour.UserNo=int(user_id)
