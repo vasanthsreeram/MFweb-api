@@ -44,7 +44,7 @@ def create_training_behaviour(user_id):
     trainingbehaviour.CorrectAns = str(content.get('CorrectAns', ''))
     trainingbehaviour.NumTraining = str(content.get('NumTraining', ''))
     print("saving this ", trainingbehaviour)
-    BaseObject.check_and_save(trainingbehaviour)
+    # BaseObject.check_and_save(trainingbehaviour)
 
     result = {"success": "yes"}
 

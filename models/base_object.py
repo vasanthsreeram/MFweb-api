@@ -4,7 +4,7 @@ from datetime import datetime
 from decimal import Decimal, InvalidOperation
 from sqlalchemy.orm import declarative_base
 from pprint import pprint
-import re
+import re,os
 from psycopg2.extras import DateTimeRange
 from sqlalchemy import CHAR,\
                        BigInteger,\
@@ -26,10 +26,15 @@ from sqlalchemy.orm import registry
 from sqlalchemy import create_engine
 from humanize import intword
 
-username = "gridgame"
-password = "J35pZyjo9kLQjh"
-server = "clic.database.windows.net"
-database = "clic"
+username = os.environ.get("DB_USER")
+password = os.environ.get("password")
+server = os.environ.get("server")
+database = os.environ.get("DB_DATABASE")
+
+# username = "gridgame"
+# password = ""
+# server = "clic.database.windows.net"
+# database = "clic"
 
 db_uri = f"mssql+pymssql://{username}:{password}@{server}/{database}"
 

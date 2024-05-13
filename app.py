@@ -8,6 +8,7 @@ import urllib
 from flask_cors import CORS
 from flask import Flask, jsonify, request, render_template
 from flask_mail import Mail, Message
+from sqlalchemy.exc import OperationalError
 
 from models.db import db
 from models.install import install_models
@@ -27,7 +28,10 @@ password = os.environ.get("password")
 server = os.environ.get("server")
 database = os.environ.get("DB_DATABASE")
 
-
+# username = "gridgame"
+# password = ""
+# server = "clic.database.windows.net"
+# database = "clic"
 
 db_uri = f"mssql+pymssql://{username}:{password}@{server}/{database}"
 print(db_uri)
@@ -42,6 +46,14 @@ CORS(app)
 with app.app_context():
     install_models()
     import routes
+    # Try to connect to the database
+    try:
+        conn = db.engine.connect()
+        print("Successfully connected to the database.")
+        conn.close()
+    except OperationalError as e:
+        print(f"Failed to connect to the database: {e}")
+
 
 
 # --- TESTING THE SERVER IS WORKING -----------

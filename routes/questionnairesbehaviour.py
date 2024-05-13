@@ -3,10 +3,12 @@ from flask import current_app as app, jsonify, request
 from models import QuestionnairesBehaviour, BaseObject, db
 from sqlalchemy.sql.expression import func
 
+print("inside qn behaviour route")
+
 @app.route('/questionnaires_behaviour/<user_id>', methods=['POST', 'GET'])
 def create_questionnaires_behaviour(user_id):
     content = request.json
-
+    print("question behaviour conent", content)
     questionnairesbehaviour = QuestionnairesBehaviour(
         UserNo=int(user_id),
         ProlificID=str(content.get('ProlificID', '')),
@@ -58,7 +60,7 @@ def create_questionnaires_behaviour(user_id):
         MEDIC=str(content.get('MEDIC', ''))
     )
 
-    BaseObject.check_and_save(questionnairesbehaviour)
+    # BaseObject.check_and_save(questionnairesbehaviour)
 
     result = {"success": "yes"}
 

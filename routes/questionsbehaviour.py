@@ -20,7 +20,8 @@ def get_last_participant_id():
 
 def create_questions_behaviour(user_id):
 
-    content                          = request.json
+    content = request.json
+    print(content)
     questionsbehaviour = QuestionsBehaviour(
         UserNo=int(user_id),
         ProlificID=str(content.get('ProlificID', '')),
@@ -39,7 +40,7 @@ def create_questions_behaviour(user_id):
     )
 
 
-    BaseObject.check_and_save(questionsbehaviour)
+    # BaseObject.check_and_save(questionsbehaviour)
 
     result = dict({"success": "yes"})
 
